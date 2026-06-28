@@ -1,0 +1,581 @@
+<!--
+Trabalho Prático - Fundamentos de Projeto e Análise de Algoritmos
+PUC Minas - campus Contagem
+Professora: Amália Vasconcelos
+------------------------------------------------------------------------------------------------------------------------------------------
+Autores: Alice Machado Villalba Costa, Gabriel Lucas Diniz Alves, Ingrid Yara Alves dos Santos, Joao Felipe da Silva Prado,
+Otavio Soares da Costa, Pedro Antonio Silva Neto, Wanessa Cristina Ribeiro de Paula
+Data: 27/06/2026
+Versão: 1.0
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Este arquivo refere-se à INTERFACE GRÁFICA do projeto, responsável por integrar e permitir a interação
+com as duas abordagens implementadas para o problema de LCS:
+
+1) Programação Dinâmica
+2) Backtracking
+
+A interface possibilita ao usuário inserir as strings de entrada, escolher a abordagem desejada
+e visualizar os resultados gerados por cada técnica, facilitando a comparação entre desempenho
+e comportamento dos algoritmos.
+
+------------------------------------------------------------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sincronizador de Dados - FPAA (PUC Minas)</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .wrapper-tabela {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        /* Efeito visual para as células percorridas pelo Backtracking */
+        .cell-backtrack {
+            background-color: #FEF08A !important;
+            /* Amarelo suave */
+            color: #854D0E !important;
+            font-weight: 800 !important;
+            border: 2px solid #CA8A04 !important;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body class="bg-[#FFCD83] text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <header class="bg-[#116C2A] border-b border-[#0d5220] p-5 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-xl font-bold text-[#FFCD83] tracking-tight">Sincronização de Dados Complexos</h1>
+                <p class="text-xs font-medium text-[#C6BBCC] mt-0.5">Fundamentos de Projeto e Análise de Algoritmos |
+                    Profa. Amália Vasconcelos</p>
+            </div>
+            <div
+                class="text-right text-xs text-[#FFCD83] bg-[#0d5220] p-3 rounded-lg border border-[#116C2A] shadow-inner">
+                <p class="font-semibold">Grupo: Alice Machado, Gabriel Lucas, Ingrid Yara Alves, Joao Felipe, Otavio
+                    Soares, Pedro Antonio, Wanessa Cristina</p>
+                <p class="text-[#C6BBCC]">PUC Minas - Campus Contagem (2026)</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl w-full mx-auto p-4 md:p-6 flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <section
+        class="lg:col-span-1 self-start bg-white border border-[#C6BBCC] rounded-2xl p-6 shadow-sm flex flex-col justify-between gap-5">
+         <div>
+                <h2
+                    class="text-base font-bold text-[#116C2A] mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+                    <span class="w-2 h-4 bg-[#116C2A] rounded-full"></span> Configurações e Entrada
+                </h2>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Técnica de
+                        Programação</label>
+                    <div class="grid grid-cols-1 gap-2.5">
+                        <div class="flex items-center gap-2 w-full">
+                            <label
+                                class="flex-grow flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-[#C6BBCC]/10 cursor-pointer hover:border-[#116C2A] hover:bg-white transition-all shadow-xs group">
+                                <input type="radio" name="tecnica" value="dp_puro" checked
+                                    class="mt-1 accent-[#116C2A]">
+                                <div>
+                                    <span
+                                        class="text-sm font-semibold text-slate-800 block group-hover:text-[#116C2A] transition-colors">Apenas
+                                        Programação Dinâmica</span>
+                                    <span class="text-xs text-slate-500">Abordagem Bottom-Up com conjuntos literais em
+                                        células</span>
+                                </div>
+                            </label>
+                            <button type="button" onclick="abrirInfo('dp_puro')"
+                                class="p-2 rounded-full bg-[#116C2A]/10 hover:bg-[#116C2A] text-[#116C2A] hover:text-white transition-all font-bold text-sm cursor-pointer w-9 h-9 flex items-center justify-center shadow-xs"
+                                title="Como funciona?">?</button>
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full">
+                            <label
+                                class="flex-grow flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-[#C6BBCC]/10 cursor-pointer hover:border-[#116C2A] hover:bg-white transition-all shadow-xs group">
+                                <input type="radio" name="tecnica" value="dp_backtracking"
+                                    class="mt-1 accent-[#116C2A]">
+                                <div>
+                                    <span
+                                        class="text-sm font-semibold text-slate-800 block group-hover:text-[#116C2A] transition-colors">DP
+                                        + Backtracking</span>
+                                    <span class="text-xs text-slate-500">Tabela de comprimentos inteiros e busca reversa
+                                        ativa</span>
+                                </div>
+                            </label>
+                            <button type="button" onclick="abrirInfo('dp_backtracking')"
+                                class="p-2 rounded-full bg-[#116C2A]/10 hover:bg-[#116C2A] text-[#116C2A] hover:text-white transition-all font-bold text-sm cursor-pointer w-9 h-9 flex items-center justify-center shadow-xs"
+                                title="Como funciona?">?</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Dados de
+                        Entrada</label>
+                    <textarea id="inputDados" rows="5"
+                        class="w-full bg-[#C6BBCC]/5 border border-[#C6BBCC]/40 rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[#116C2A]/10 focus:border-[#116C2A] text-slate-800 placeholder-slate-400 transition-all shadow-inner"
+                        placeholder="Exemplo:&#10;1&#10;ijkijkii&#10;ikjikji"></textarea>
+
+                    <div
+                        class="mt-2 p-3 bg-amber-50 rounded-xl border border-[#C6BBCC]/60 text-[11px] text-slate-600 leading-relaxed shadow-xs">
+                        <strong class="text-[#116C2A] block mb-1">📐 Regra das Linhas (Proporção):</strong>
+                        A primeira linha dita o número de conjuntos ($D \le 10$). O total de linhas seguintes deve ser
+                        **o dobro de $D$** ($2 \times D$).
+                    </div>
+                </div>
+
+                <button id="btnExemplo"
+                    class="text-xs font-medium text-[#116C2A] hover:text-[#0d5220] hover:underline transition-colors block mb-2">Carregar
+                    exemplo oficial</button>
+            </div>
+
+<button id="btnProcessar"
+    class="mt-auto w-full bg-[#116C2A] hover:bg-[#198536] active:bg-[#0d5220] text-white font-semibold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer text-center tracking-wide">
+    Sincronizar e Filtrar Padrões
+</button>
+        </section>
+
+        <section class="lg:col-span-2 flex flex-col gap-5">
+
+            <div
+                class="bg-white border border-[#C6BBCC] rounded-xl p-4 shadow-sm flex flex-wrap justify-between items-center text-xs text-slate-600 gap-3">
+                <div class="flex items-center gap-4">
+                    <div>Arquivo Ativo: <span id="infoTecnica" class="font-bold text-[#116C2A]">-</span></div>
+                    <div class="w-px h-3 bg-slate-200"></div>
+                    <div>Status: <span id="infoStatus"
+                            class="font-bold text-[#116C2A] bg-[#C6BBCC]/20 px-2 py-0.5 rounded border border-[#C6BBCC]">Aguardando</span>
+                    </div>
+                </div>
+                <div>GitHub: <a href="https://github.com/alicevillalbapuc/TrabalhoFPAA" target="_blank"
+                        class="text-[#116C2A] hover:underline font-mono font-medium">/TrabalhoFPAA</a></div>
+            </div>
+
+            <div class="bg-white border border-[#C6BBCC] rounded-2xl p-5 shadow-sm flex flex-col">
+                <h2
+                    class="text-sm font-bold text-[#116C2A] mb-3 border-b border-slate-100 pb-2 flex items-center gap-2">
+                    <span class="w-1.5 h-3 bg-[#116C2A] rounded-full"></span> Subsequências Mais Longas (LCS)
+                </h2>
+                <div
+                    class="bg-[#116C2A] border border-[#0d5220] rounded-xl p-4 font-mono text-xs overflow-y-auto max-h-[140px] shadow-inner">
+                    <pre id="outputResultados"
+                        class="text-[#FFCD83] whitespace-pre-wrap">Os resultados processados aparecerão aqui...</pre>
+                </div>
+            </div>
+
+            <div id="painelAnalise" class="bg-white border border-[#C6BBCC] rounded-2xl p-5 shadow-sm hidden">
+                <h2
+                    class="text-sm font-bold text-[#116C2A] mb-3 border-b border-slate-100 pb-2 flex items-center gap-2">
+                    <span class="w-1.5 h-3 bg-[#116C2A] rounded-full"></span> Análise Empírica e Complexidade Teórica
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <span class="font-bold text-slate-500 uppercase block tracking-wider text-[10px] mb-1">Métricas
+                            em Tempo Real</span>
+                        <p class="text-slate-700 font-semibold mb-1">Tempo gasto na execução: <span id="metricTempo"
+                                class="text-emerald-700 font-mono font-bold">0 ms</span></p>
+                        <p class="text-slate-700 font-semibold">Tamanho da matriz gerada: <span id="metricMatriz"
+                                class="font-mono">0 x 0</span></p>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <span
+                            class="font-bold text-slate-500 uppercase block tracking-wider text-[10px] mb-1">Complexidade
+                            Assintótica Dominante</span>
+                        <p class="text-slate-700 font-semibold mb-1">Tempo Teórico: <span id="complexTempo"
+                                class="font-mono text-[#116C2A] font-bold">O(N × M)</span></p>
+                        <p class="text-slate-700 font-semibold">Espaço em Memória: <span id="complexEspaco"
+                                class="font-mono text-[#116C2A] font-bold">O(N × M)</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-[#C6BBCC] rounded-2xl p-5 shadow-sm flex-grow flex flex-col">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
+                    <h2 class="text-base font-bold text-[#116C2A]">Matriz de Estados na Memória (<span
+                            id="txtFormulaMatriz">dp[i][j]</span>)</h2>
+                    <span id="badgeEstadoTabela"
+                        class="text-xs font-medium text-slate-500 bg-[#C6BBCC]/20 px-2.5 py-0.5 rounded-full">Último
+                        Bloco</span>
+                </div>
+
+                <div class="wrapper-tabela flex-grow flex items-center justify-center">
+                    <div id="containerTabela"
+                        class="w-full text-center text-slate-400 text-sm font-medium italic py-10">
+                        A tabela interativa com o mapa de execução aparecerá aqui.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modalInfo"
+        class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+        <div
+            class="bg-white border-2 border-[#116C2A] rounded-2xl p-6 max-w-lg w-full shadow-2xl transform scale-95 transition-all">
+            <div class="flex justify-between items-start border-b border-slate-150 pb-3">
+                <h3 id="modalTitulo" class="text-lg font-bold text-[#116C2A]">Explicação do Algoritmo</h3>
+                <button onclick="fecharInfo()"
+                    class="text-slate-400 hover:text-slate-600 font-bold text-lg p-1">✕</button>
+            </div>
+            <div id="modalConteudo" class="mt-4 text-sm text-slate-700 space-y-3 leading-relaxed"></div>
+            <div class="mt-6 text-right">
+                <button onclick="fecharInfo()"
+                    class="bg-[#116C2A] hover:bg-[#198536] text-white font-semibold px-5 py-2 rounded-xl text-xs transition-colors cursor-pointer">
+                    Entendi, fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-[#C6BBCC] p-4 text-center text-xs font-medium text-slate-400 shadow-sm">
+        &copy; 2026 - Interface Gráfica desenvolvida para a disciplina FPAA. Todos os direitos reservados ao Grupo.
+    </footer>
+
+    <script src="lcs_programacao_dinamica.js"></script>
+    <script src="lcs_programacao_dp_backtracking.js"></script>
+
+    <script>
+        const explicacoes = {
+            dp_puro: `
+                <p><strong>Como Funciona:</strong> Esta abordagem preenche a tabela de trás para frente (Bottom-Up). Cada célula armazena uma estrutura contendo o comprimento máximo atual e um <code>Set</code> com todas as strings parciais combinadas até ali.</p>
+                <p><strong>Recuperação:</strong> Quando o loop termina, a resposta já está calculada diretamente na célula inicial <code>dp[0][0]</code>.</p>
+            `,
+            dp_backtracking: `
+                <p><strong>Como Funciona:</strong> Esta técnica divide o problema em duas fases:</p>
+                <ol class="list-decimal pl-5 space-y-1">
+                    <li><strong>Fase DP:</strong> Constrói uma tabela contendo exclusivamente números inteiros representando os comprimentos máximos.</li>
+                    <li><strong>Fase Backtracking:</strong> Uma função recursiva varre a matriz recuperando os caminhos ótimos.</li>
+                </ol>
+            `
+        };
+
+        function abrirInfo(tecnica) {
+            const modal = document.getElementById('modalInfo');
+            const titulo = document.getElementById('modalTitulo');
+            const conteudo = document.getElementById('modalConteudo');
+            if (tecnica === 'dp_puro') {
+                titulo.innerText = "Apenas Programação Dinâmica";
+                conteudo.innerHTML = explicacoes.dp_puro;
+            } else {
+                titulo.innerText = "Programação Dinâmica + Backtracking";
+                conteudo.innerHTML = explicacoes.dp_backtracking;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function fecharInfo() {
+            document.getElementById('modalInfo').classList.add('hidden');
+        }
+
+        // Função responsável por calcular e rastrear o caminho inverso feito pelo Backtracking
+        function obterCaminhoBacktracking(strA, strB, matrizNum) {
+            const caminhosVisitados = new Set();
+            function buscar(i, j) {
+                if (i >= strA.length || j >= strB.length) return;
+                caminhosVisitados.add(`${i},${j}`);
+                if (strA[i] === strB[j]) {
+                    buscar(i + 1, j + 1);
+                } else {
+                    if (matrizNum[i + 1][j] >= matrizNum[i][j + 1]) {
+                        buscar(i + 1, j);
+                    } else {
+                        buscar(i, j + 1);
+                    }
+                }
+            }
+            buscar(0, 0);
+            return caminhosVisitados;
+        }
+
+        // Função auxiliar simulando as strings geradas por DP Puro de trás para frente
+        function obterSubconjuntosSimuladosDP(strA, strB) {
+            const n = strA.length, m = strB.length;
+            const dpSets = Array.from({ length: n + 1 }, () => Array(m + 1).fill(null).map(() => new Set([""])));
+
+            for (let i = n - 1; i >= 0; i--) {
+                for (let j = m - 1; j >= 0; j--) {
+                    if (strA[i] === strB[j]) {
+                        const novoSet = new Set();
+                        dpSets[i + 1][j + 1].forEach(s => novoSet.add(strA[i] + s));
+                        dpSets[i][j] = novoSet;
+                    } else {
+                        const setA = dpSets[i + 1][j];
+                        const setB = dpSets[i][j + 1];
+                        let maxLen = 0;
+                        setA.forEach(s => maxLen = Math.max(maxLen, s.length));
+                        setB.forEach(s => maxLen = Math.max(maxLen, s.length));
+
+                        const novoSet = new Set();
+                        setA.forEach(s => { if (s.length === maxLen) novoSet.add(s); });
+                        setB.forEach(s => { if (s.length === maxLen) novoSet.add(s); });
+                        dpSets[i][j] = novoSet;
+                    }
+                }
+            }
+            return dpSets;
+        }
+
+        // NOVA FUNÇÃO: Gera a explicação matemática da construção do grid baseada nas strings reais digitadas
+        function atualizarExplicacaoConstrucao(tipoAlgoritmo) {
+            // Remove qualquer bloco explicativo anterior para evitar duplicação
+            const blocoAntigo = document.getElementById('blocoExplicativoMatriz');
+            if (blocoAntigo) blocoAntigo.remove();
+
+            const divExplicacao = document.createElement('div');
+            divExplicacao.id = "blocoExplicativoMatriz";
+            // Ajustado para ocupar a largura total (w-full), com espaçamento interno equilibrado e margem superior
+            divExplicacao.className = "w-full mt-6 p-5 bg-emerald-50/60 border border-[#116C2A]/20 rounded-xl text-left text-xs text-slate-700 shadow-xs";
+
+            if (tipoAlgoritmo === 'dp_puro') {
+                divExplicacao.innerHTML = `
+                    <h3 class="font-bold text-[#116C2A] text-sm flex items-center gap-2 mb-3">
+                        <span class="w-1.5 h-3 bg-[#116C2A] rounded-full"></span> 📝 Regras de Preenchimento da Matriz (DP Puro)
+                    </h3>
+                    <p class="mb-3 leading-relaxed">O algoritmo calcula as soluções dos subproblemas de trás para frente, decrementando os índices das sequências de <strong>N-1</strong> até <strong>0</strong>.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                            <strong class="text-slate-800 block mb-1">Caso Base ($\emptyset$):</strong>
+                            <p class="text-slate-600 leading-relaxed">A última linha e a última coluna representam a string vazia, sendo preenchidas estritamente com <code>0 {}</code> devido à ausência de similaridade.</p>
+                        </div>
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                            <strong class="text-emerald-700 block mb-1">Caracteres IGUAIS (Match):</strong>
+                            <p class="text-slate-600 leading-relaxed mb-2">A célula acumula o valor da diagonal inferior direita somado a 1:</p>
+                            <code class="bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200 font-mono text-[11px] block text-center">dp[i][j] = dp[i+1][j+1] + 1</code>
+                            <p class="text-slate-500 text-[10px] mt-1.5 leading-relaxed">O caractere idêntico é concatenado no início de todas as strings do conjunto da diagonal.</p>
+                        </div>
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                            <strong class="text-purple-700 block mb-1">Caracteres DIFERENTES:</strong>
+                            <p class="text-slate-600 leading-relaxed mb-2">A célula herda o maior valor numérico entre a célula imediatamente abaixo ou à direita:</p>
+                            <code class="bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200 font-mono text-[11px] block text-center">max(dp[i+1][j], dp[i][j+1])</code>
+                            <p class="text-slate-500 text-[10px] mt-1.5 leading-relaxed">O sistema realiza a união dos conjuntos das células vizinhas que possuem esse comprimento máximo.</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                divExplicacao.innerHTML = `
+                    <h3 class="font-bold text-[#116C2A] text-sm flex items-center gap-2 mb-3">
+                        <span class="w-1.5 h-3 bg-[#116C2A] rounded-full"></span> 📌 Regras de Preenchimento e Rastro (DP + Backtracking)
+                    </h3>
+                    <p class="mb-3 leading-relaxed">Esta abordagem otimizada divide o problema de forma cirúrgica em duas fases distintas:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                            <strong class="text-slate-800 block mb-1">Fase 1: Montagem Numérica (DP)</strong>
+                            <p class="text-slate-600 leading-relaxed mb-2">A matriz é construída armazenando comprimentos estritamente numéricos para poupar memória:</p>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-500 text-[11px]">
+                                <li>Se iguais: <code class="bg-slate-50 px-1 rounded border">dp[i][j] = dp[i+1][j+1] + 1</code></li>
+                                <li>Se diferentes: <code class="bg-slate-50 px-1 rounded border">dp[i][j] = max(dp[i+1][j], dp[i][j+1])</code></li>
+                            </ul>
+                        </div>
+                        <div class="p-3 bg-white border border-slate-200 rounded-lg">
+                            <strong class="text-amber-700 block mb-1">Fase 2: O Rastro do Backtracking</strong>
+                            <p class="text-slate-600 leading-relaxed">Uma busca recursiva inicia em <code class="bg-slate-50 px-1 rounded border">dp[0][0]</code>. Se os caracteres casam, o algoritmo <strong>avança pela diagonal</strong> e registra a letra. Caso contrário, ele caminha em direção ao vizinho de maior valor numérico, mapeando o rastro amarelo na tela.</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Garante que o bloco seja inserido fora e abaixo do wrapper de rolagem da tabela
+            const wrapper = document.querySelector('.wrapper-tabela');
+            if (wrapper) {
+                wrapper.parentNode.insertBefore(divExplicacao, wrapper.nextSibling);
+            } else {
+                container.parentNode.appendChild(divExplicacao);
+            }
+
+        }
+
+        function desenharTabelaVisual(strA, strB, tipoAlgoritmo) {
+            const container = document.getElementById('containerTabela');
+            container.innerHTML = "";
+
+            const n = strA.length, m = strB.length;
+            const matrizNum = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+
+            // Preenche matriz numérica padrão
+            for (let i = n - 1; i >= 0; i--) {
+                for (let j = m - 1; j >= 0; j--) {
+                    if (strA[i] === strB[j]) {
+                        matrizNum[i][j] = matrizNum[i + 1][j + 1] + 1;
+                    } else {
+                        matrizNum[i][j] = Math.max(matrizNum[i + 1][j], matrizNum[i][j + 1]);
+                    }
+                }
+            }
+
+            let conjuntoSufixos = null;
+            let rotaBacktrack = null;
+
+            if (tipoAlgoritmo === 'dp_puro') {
+                document.getElementById('txtFormulaMatriz').innerText = "dp[i][j] = { Comprimento, {Subsequências} }";
+                conjuntoSufixos = obterSubconjuntosSimuladosDP(strA, strB);
+            } else {
+                document.getElementById('txtFormulaMatriz').innerText = "dp[i][j] = Comprimento Puro";
+                rotaBacktrack = obterCaminhoBacktracking(strA, strB, matrizNum);
+            }
+
+            const table = document.createElement('table');
+            table.className = "mx-auto border-collapse border border-[#C6BBCC] font-mono text-[11px] shadow-xs rounded-lg overflow-hidden";
+
+            // Monta cabeçalho
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `<th class="border border-[#C6BBCC] bg-[#C6BBCC]/20 p-2 text-[#116C2A] font-bold">A \\ B</th>`;
+            for (let j = 0; j < m; j++) {
+                headerRow.innerHTML += `<th class="border border-[#C6BBCC] bg-[#C6BBCC]/20 p-2 text-[#116C2A] font-bold">${strB[j]}</th>`;
+            }
+            headerRow.innerHTML += `<th class="border border-[#C6BBCC] bg-[#C6BBCC]/20 p-2 text-slate-400 font-medium">Ø</th>`;
+            table.appendChild(headerRow);
+
+            // Monta as linhas
+            for (let i = 0; i <= n; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = i === n
+                    ? `<td class="border border-[#C6BBCC] bg-[#C6BBCC]/20 p-2 font-bold text-slate-400">Ø</td>`
+                    : `<td class="border border-[#C6BBCC] bg-[#C6BBCC]/20 p-2 font-bold text-[#116C2A]">${strA[i]}</td>`;
+
+                for (let j = 0; j <= m; j++) {
+                    const numValor = matrizNum[i][j];
+                    let classeDestaque = "text-slate-600 bg-white hover:bg-slate-50 transition-colors";
+                    let conteudoCelua = numValor;
+
+                    if (tipoAlgoritmo === 'dp_puro') {
+                        const setCel = conjuntoSufixos[i][j];
+                        const arrayPalavras = Array.from(setCel).filter(x => x !== "");
+                        if (arrayPalavras.length > 0) {
+                            conteudoCelua = `<div class="font-bold text-slate-800">${numValor}</div><div class="text-[9px] text-purple-600 font-medium max-w-[80px] truncate" title="${arrayPalavras.join(', ')}">{${arrayPalavras.join(',')}}</div>`;
+                        } else {
+                            conteudoCelua = `<div class="text-slate-400">${numValor}</div><div class="text-[9px] text-slate-300">{}</div>`;
+                        }
+                        if (i < n && j < m && strA[i] === strB[j]) {
+                            classeDestaque = "bg-purple-50 ring-1 ring-purple-300";
+                        }
+                    } else {
+                        if (rotaBacktrack.has(`${i},${j}`)) {
+                            classeDestaque = "cell-backtrack animate-pulse";
+                        } else if (i < n && j < m && strA[i] === strB[j]) {
+                            classeDestaque = "text-[#116C2A] bg-[#116C2A]/5 font-bold";
+                        }
+                    }
+
+                    row.innerHTML += `<td class="border border-slate-200 p-2 min-w-[50px] text-center ${classeDestaque}">${conteudoCelua}</td>`;
+                }
+                table.appendChild(row);
+            }
+            container.appendChild(table);
+
+            // Executa a injeção do texto explicativo logo após renderizar o grid físico
+            atualizarExplicacaoConstrucao(tipoAlgoritmo);
+        }
+
+        const txtInput = document.getElementById('inputDados');
+        const preOutput = document.getElementById('outputResultados');
+        const btnProcessar = document.getElementById('btnProcessar');
+        const btnExemplo = document.getElementById('btnExemplo');
+        const infoTecnica = document.getElementById('infoTecnica');
+        const infoStatus = document.getElementById('infoStatus');
+
+        btnExemplo.addEventListener('click', () => {
+            txtInput.value = "1\nijkijkii\nikjikji";
+        });
+
+        btnProcessar.addEventListener('click', () => {
+            const input = txtInput.value.trim();
+            if (!input) {
+                alert("Por favor, digite ou gere as sequências.");
+                return;
+            }
+
+            const tecnicaSelecionada = document.querySelector('input[name="tecnica"]:checked').value;
+            infoStatus.textContent = "Processando";
+            infoStatus.className = "font-bold text-[#116C2A] bg-[#C6BBCC]/20 px-2 py-0.5 rounded border border-[#C6BBCC]";
+
+            const t0 = performance.now();
+
+            try {
+                const linhas = input.split(/\r?\n/).map(l => l.trim()).filter(l => l !== "");
+                if (linhas.length === 0) throw new Error("A caixa de texto está vazia.");
+
+                const D = parseInt(linhas[0], 10);
+                if (isNaN(D) || D <= 0 || D > 10) {
+                    throw new Error("A primeira linha deve conter um número inteiro positivo (D ≤ 10).");
+                }
+
+                const linhasEsperadas = 2 * D;
+                const linhasDisponiveis = linhas.length - 1;
+
+                if (linhasDisponiveis !== linhasEsperadas) {
+                    throw new Error(`Estrutura incorreta! Para D = ${D}, o enunciado exige exatamente ${linhasEsperadas} linhas de eventos (2 para cada conjunto).\nAtualmente existem ${linhasDisponiveis} linhas.`);
+                }
+
+                for (let i = 1; i <= linhasEsperadas; i++) {
+                    const seq = linhas[i];
+                    if (seq.length < 1 || seq.length > 80 || !/^[a-z]+$/.test(seq)) {
+                        throw new Error(`A sequência na linha ${i + 1} ("${seq}") viola as regras. Deve conter entre 1 e 80 letras minúsculas (a-z).`);
+                    }
+                }
+
+                if (tecnicaSelecionada === 'dp_puro') {
+                    infoTecnica.textContent = "lcs_programacao_dinamica.js";
+                    if (typeof processarEntrada === 'function') {
+                        preOutput.textContent = processarEntrada(input);
+                    } else {
+                        preOutput.textContent = "[Simulação GUI Ativa] Resultados impressos via arquivo externo.";
+                    }
+                } else {
+                    infoTecnica.textContent = "lcs_programacao_dp_backtracking.js";
+                    const funcaoBacktracking = typeof processarEntradaBacktracking === 'function' ? processarEntradaBacktracking : processarEntrada;
+                    if (typeof funcaoBacktracking === 'function') {
+                        preOutput.textContent = funcaoBacktracking(input);
+                    } else {
+                        preOutput.textContent = "[Simulação GUI Ativa] Resultados com backtracking impressos.";
+                    }
+                }
+
+                const ultimoCasoHelena = linhas[linhas.length - 2];
+                const ultimoCasoMarcus = linhas[linhas.length - 1];
+
+                const t1 = performance.now();
+                const tempoGasto = (t1 - t0).toFixed(2);
+
+                document.getElementById('painelAnalise').classList.remove('hidden');
+                document.getElementById('metricTempo').innerText = `${tempoGasto} ms`;
+                document.getElementById('metricMatriz').innerText = `${ultimoCasoHelena.length + 1} × ${ultimoCasoMarcus.length + 1}`;
+
+                if (tecnicaSelecionada === 'dp_puro') {
+                    document.getElementById('complexTempo').innerText = "O(N × M × Σ)";
+                    document.getElementById('complexEspaco').innerText = "O(N × M × 2^L)";
+                } else {
+                    document.getElementById('complexTempo').innerText = "O(N × M + Caminhos)";
+                    document.getElementById('complexEspaco').innerText = "O(N × M)";
+                }
+
+                infoStatus.textContent = "Sucesso";
+                infoStatus.className = "font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200";
+
+                desenharTabelaVisual(ultimoCasoHelena, ultimoCasoMarcus, tecnicaSelecionada);
+
+            } catch (error) {
+                preOutput.textContent = "⚠️ RESTRIÇÃO VIOLADA OU ERRO:\n\n" + error.message;
+                infoStatus.textContent = "Erro";
+                infoStatus.className = "font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200";
+                document.getElementById('containerTabela').innerHTML = `<span class="text-red-400 italic font-medium">Impossível renderizar a matriz devido ao erro de entrada.</span>`;
+                document.getElementById('painelAnalise').classList.add('hidden');
+                const blocoExplicativo = document.getElementById('blocoExplicativoMatriz');
+                if (blocoExplicativo) blocoExplicativo.remove();
+            }
+        });
+    </script>
+</body>
+
+</html>
