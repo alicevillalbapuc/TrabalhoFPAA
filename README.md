@@ -69,7 +69,13 @@ O backtracking é especialmente importante porque podem existir várias LCS dife
 
 ## 3. Houve desafios na implementação? Quais? Como foram superados?
 
-> Resposta.
+Durante a implementação e os testes, um dos principais desafios foi garantir que todas as subsequências comuns mais longas fossem encontradas sem repetição. Como algumas entradas possuem letras repetidas, a mesma LCS pode ser gerada por caminhos diferentes na tabela de programação dinâmica. Para superar isso, foi necessário comparar as saídas geradas pelas duas versões e utilizar estruturas que evitassem duplicidade, como conjuntos.
+
+Outro desafio foi validar se as subsequências estavam realmente em ordem alfabética, conforme solicitado no enunciado. Para isso, foram criados casos de teste com múltiplas LCS possíveis, verificando se a saída final estava ordenada corretamente.
+
+Também foi necessário testar casos variados, como strings iguais, strings com muitos caracteres repetidos, entradas com mais de um conjunto de dados e situações de validação, como quantidade de casos maior que o permitido ou uso de caracteres inválidos. Esses testes ajudaram a identificar erros de formatação, principalmente a exigência de imprimir uma linha em branco entre blocos de saída.
+
+Por fim, os testes foram executados nas duas soluções: a versão usando apenas programação dinâmica e a versão combinando programação dinâmica com backtracking. A comparação entre as saídas permitiu confirmar que ambas retornavam as mesmas LCS distintas para os mesmos casos de entrada.
 
 ---
 
