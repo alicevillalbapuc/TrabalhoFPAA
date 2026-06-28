@@ -155,17 +155,52 @@ function lcsDPBacktracking(a, b) {
 // ---------------------------------------------------------------------------
 // Função utilizada pela interface gráfica para processar os dados de entrada.
 // ---------------------------------------------------------------------------
-function processarEntrada(input) {
-    const linhas = input.trim().split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-    let idx = 0;
+function validarEntradaLCSBacktracking(input) {
+    const linhas = input.replace(/\r/g, "").split("\n").map(l => l.trim());
 
-    const D = parseInt(linhas[idx++], 10);
+    if (linhas.length === 0 || linhas[0] === "") {
+        throw new Error("A primeira linha deve conter a quantidade de casos D.");
+    }
+
+    if (!/^\d+$/.test(linhas[0])) {
+        throw new Error("A primeira linha deve conter um numero inteiro positivo.");
+    }
+
+    const D = parseInt(linhas[0], 10);
+    if (D < 1 || D > 10) {
+        throw new Error("D deve estar entre 1 e 10.");
+    }
+
+    const linhasEsperadas = 1 + (2 * D);
+    if (linhas.length !== linhasEsperadas) {
+        throw new Error(`Entrada invalida: para D = ${D}, devem existir exatamente ${2 * D} linhas de strings.`);
+    }
+
+    const casos = [];
+    for (let i = 1; i < linhas.length; i += 2) {
+        const a = linhas[i];
+        const b = linhas[i + 1];
+
+        for (const seq of [a, b]) {
+            if (seq.length < 1 || seq.length > 80) {
+                throw new Error("Cada string deve ter entre 1 e 80 caracteres.");
+            }
+            if (!/^[a-z]+$/.test(seq)) {
+                throw new Error("Cada string deve conter apenas letras minusculas de a a z.");
+            }
+        }
+
+        casos.push([a, b]);
+    }
+
+    return casos;
+}
+
+function processarEntrada(input) {
+    const casos = validarEntradaLCSBacktracking(input);
     const blocos = [];
 
-    for (let d = 0; d < D; d++) {
-        const a = linhas[idx++] ?? "";
-        const b = linhas[idx++] ?? "";
-
+    for (const [a, b] of casos) {
         const lcs = lcsDPBacktracking(a, b);
         blocos.push(lcs.join("\n"));
     }
