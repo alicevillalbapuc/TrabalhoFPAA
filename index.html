@@ -508,7 +508,7 @@ e comportamento dos algoritmos.
 
                 const D = parseInt(linhas[0], 10);
                 if (isNaN(D) || D <= 0 || D > 10) {
-                    throw new Error("A primeira linha deve conter um número inteiro positivo (D ≤ 10).");
+                    throw new Error("A primeira linha deve conter um número inteiro positivo (D ≤ 10 e D ≥ 0).");
                 }
 
                 const linhasEsperadas = 2 * D;
@@ -527,8 +527,8 @@ e comportamento dos algoritmos.
 
                 if (tecnicaSelecionada === 'dp_puro') {
                     infoTecnica.textContent = "lcs_programacao_dinamica.js";
-                    if (typeof processarEntrada === 'function') {
-                        preOutput.textContent = processarEntrada(input);
+                    if (typeof processarEntradaPD === 'function') {
+                        preOutput.textContent = processarEntradaPD(input);
                     } else {
                         preOutput.textContent = "[Simulação GUI Ativa] Resultados impressos via arquivo externo.";
                     }
@@ -569,7 +569,7 @@ e comportamento dos algoritmos.
                 preOutput.textContent = "⚠️ RESTRIÇÃO VIOLADA OU ERRO:\n\n" + error.message;
                 infoStatus.textContent = "Erro";
                 infoStatus.className = "font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200";
-                document.getElementById('containerTabela').innerHTML = `<span class="text-red-400 italic font-medium">Impossível renderizar a matriz devido ao erro de entrada.</span>`;
+                document.getElementById('containerTabela').innerHTML = `<span class="text-red-400 italic font-medium">${error.message}</span>`;
                 document.getElementById('painelAnalise').classList.add('hidden');
                 const blocoExplicativo = document.getElementById('blocoExplicativoMatriz');
                 if (blocoExplicativo) blocoExplicativo.remove();

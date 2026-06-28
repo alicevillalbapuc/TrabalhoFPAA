@@ -86,7 +86,7 @@ function lcsDP(a, b) {
 // ---------------------------------------------------------------------------
 // Função utilizada pela interface gráfica para processar os dados de entrada.
 // ---------------------------------------------------------------------------
-function processarEntrada(input) {
+function processarEntradaPD(input) {
     const linhas = input.trim().split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     let idx = 0;
 
