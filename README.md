@@ -44,13 +44,26 @@ A Programação Dinâmica é utilizada para calcular o comprimento da LCS, enqua
 
 ## 1. Como a programação dinâmica foi aplicada na solução?
 
-> Resposta.
+A Programação Dinâmica foi aplicada para resolver o problema da LCS (Longest Common Subsequence), que consiste em encontrar a maior subsequência comum entre duas strings. Nas duas versões do projeto, foi criada uma tabela/matriz de programação dinâmica para armazenar os resultados dos subproblema, e cada posição da matriz representa o tamanho da maior subsequência comum entre partes das duas strings analisadas.
+
+A ideia foi comparar os caracteres das duas strings. Quando os caracteres são iguais, o valor da posição atual recebe o valor da diagonal anterior somado de 1. Quando os caracteres são diferentes, o algoritmo escolhe o maior valor entre a posição de cima e a posição da esquerda.
+
+Com isso, a matriz evita que o programa precise recalcular várias vezes os mesmos subproblemas, tornando a solução mais eficiente do que uma abordagem apenas recursiva.
+
+Na primeira versão, a Programação Dinâmica é usada principalmente para calcular o tamanho da LCS. Já na segunda versão, além de calcular esse tamanho, a tabela também serve como base para o processo de backtracking, que reconstrói as subsequências comuns encontradas.
+
 
 ---
 
 ## 2. Por que o uso de backtracking é necessário neste problema?
 
-> Resposta.
+O backtracking é necessário porque a tabela de Programação Dinâmica, sozinha informa apenas o tamanho da maior subsequência comum, ela não mostra diretamente quais são as subsequências que formam a resposta.
+
+Depois que a matriz de DP é preenchida, o algoritmo precisa percorrê-la de trás para frente para reconstruir as LCS, e esse processo é feito pelo backtracking.
+
+Quando os caracteres das duas strings são iguais, esse caractere faz parte da subsequência e o algoritmo segue para a diagonal anterior da matriz. Quando os caracteres são diferentes, o algoritmo analisa os valores vizinhos da matriz e segue pelos caminhos que ainda podem gerar uma LCS válida.
+
+O backtracking é especialmente importante porque podem existir várias LCS diferentes com o mesmo tamanho. Ele permite encontrar todas as subsequências comuns máximas distintas, e não só uma resposta possível.
 
 ---
 
@@ -195,4 +208,10 @@ Já a implementação que combina Programação Dinâmica com Backtracking armaz
 
 ## 5. O que o grupo aprendeu ao resolver esse problema?
 
-> Resposta.
+Com o desenvolvimento do trabalho, nós aprendemos na prática como a Programação Dinâmica pode ser aplicada para resolver problemas que possuem subproblemas sobrepostos e estrutura ótima, usando o problema da LCS.
+
+Também foi possível entender melhor a diferença entre calcular apenas o valor ótimo e reconstruir as soluções que levam a esse valor. A matriz de Programação Dinâmica resolve a parte do tamanho da LCS, enquanto o backtracking é necessário para recuperar as subsequências propriamente ditas.
+
+Além disso, o grupo aprendeu sobre a importância de organizar a entrada e a saída do programa, validar os dados recebidos, evitar respostas duplicadas e analisar a complexidade do algoritmo.
+
+O trabalho também ajudou a reforçar conceitos importantes vistos na disciplina, como recursão, programação dinâmica, backtracking, comparação entre strings e recuperação de soluções a partir de uma tabela.
